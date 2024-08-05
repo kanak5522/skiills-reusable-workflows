@@ -1,29 +1,19 @@
-name: My Starter Workflow
+name: Reusable Workflow
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      node:
+        required: true
+        type: string
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: Run a multi-line script
+      - name: Output the input value
         run: |
-          echo Add other actions to build,
-          echo test, and deploy to your project.
-          
-             call-reusable-workflow:
-           uses: ./.github/workflows/reusable-workflow.yml
-           with:
-           node: 14
-
-call-reusable-workflow:
-strategy:
-matrix:
-nodeversion: [14, 16, 18, 20]
-uses: ./.github/workflows/reusable-workflow.yml
- with:
- node: ${{ matrix.nodeversion }}
+          echo "The node version to use is: ${{ inputs.node }}"
